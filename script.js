@@ -1,19 +1,10 @@
 const CONFIG = {
-    // Link Google Document untuk tombol "Info Selengkapnya"
+
     GOOGLE_DOC_URL: "https://docs.google.com/document/d/1ocqOshoM_F2iB-wK15PnOX4AR7hT46rAQSodpFdyRDQ/edit?usp=sharing",
-
-    // URL folder model Teachable Machine
-    // Contoh:
-    // https://teachablemachine.withgoogle.com/models/ABC123/
     MODEL_URL: "https://teachablemachine.withgoogle.com/models/4vk_plzSm/",
-
-    // URL Web App Google Apps Script
-    // Contoh:
-    // https://script.google.com/macros/s/XXXXXXXX/exec
     SPREADSHEET_API_URL: "https://script.google.com/macros/s/AKfycbywgIvubGi5AsZZyov_mW7cqHAjnlwHBWchDYz72o6cf_RFvh-syf6h0jhU0V2NiT_4/exec",
 
-    // Minimal confidence agar hasil dianggap valid
-    MIN_CONFIDENCE: 0.60
+    MIN_CONFIDENCE: 0.85
 };
 
 let model = null;
@@ -26,7 +17,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const dropdownCancel = document.querySelector(".dropdown .cancel");
 
     if (menuToggle && dropdown) {
-
         menuToggle.addEventListener("click", () => {
             dropdown.classList.toggle("open");
             menuToggle.setAttribute(
@@ -42,7 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
 
-        // Tutup menu setelah memilih navigasi
         document.querySelectorAll(".dropdown-links a").forEach(link => {
             link.addEventListener("click", () => {
                 dropdown.classList.remove("open");
@@ -52,18 +41,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     document.querySelectorAll('a[href^="#"]').forEach(link => {
-
         link.addEventListener("click", function (event) {
 
             const targetId = this.getAttribute("href");
-
             if (!targetId || targetId === "#") return;
 
             const target = document.querySelector(targetId);
-
             if (target) {
                 event.preventDefault();
-
                 target.scrollIntoView({
                     behavior: "smooth",
                     block: "start"
@@ -96,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("Ukuran gambar maksimal 10 MB.");
             return;
         }
-
+        
         uploadedImage = file;
 
         const reader = new FileReader();
@@ -104,11 +89,8 @@ document.addEventListener("DOMContentLoaded", () => {
         reader.onload = function (event) {
 
             imagePreview.src = event.target.result;
-
             previewWrap.classList.add("show");
-
             analyzeButton.disabled = false;
-
             statusMessage.textContent =
                 "Foto siap dianalisis.";
         };
@@ -120,7 +102,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const uploadArea = document.querySelector(".upload-card");
 
     if (uploadArea) {
-
         uploadArea.addEventListener("dragover", event => {
             event.preventDefault();
             uploadArea.classList.add("dragging");
@@ -131,9 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         uploadArea.addEventListener("drop", event => {
-
             event.preventDefault();
-
             uploadArea.classList.remove("dragging");
 
             const file = event.dataTransfer.files[0];
@@ -188,9 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const resetButton = document.getElementById("resetButton");
 
     if (resetButton) {
-
         resetButton.addEventListener("click", () => {
-
             uploadedImage = null;
 
             if (imageInput) {
@@ -214,7 +191,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const backToTop = document.getElementById("scrollTop");
 
     if (backToTop) {
-
         window.addEventListener("scroll", () => {
 
             if (window.scrollY > 400) {
@@ -290,42 +266,27 @@ async function analyzeImage() {
         document.getElementById("statusMessage");
 
     try {
-
         console.log("=== ANALISIS DIMULAI ===");
-
         if (!uploadedImage) {
             alert("Silakan pilih gambar terlebih dahulu.");
             return;
         }
 
         analyzeButton.disabled = true;
-
         analyzeButton.innerHTML =
             '<i class="fa-solid fa-spinner fa-spin"></i> Menganalisis...';
 
         statusMessage.textContent =
             "Memuat model AI...";
 
-        // ==========================================
-        // LOAD MODEL
-        // ==========================================
-
         if (!model) {
-
             console.log("Model belum dimuat. Memuat sekarang...");
-
             await loadModel();
-
             console.log("Model berhasil dimuat.");
         }
 
         statusMessage.textContent =
             "Model berhasil dimuat. Menganalisis gambar...";
-
-
-        // ==========================================
-        // MEMUAT GAMBAR
-        // ==========================================
 
         const image = new Image();
 
@@ -335,9 +296,7 @@ async function analyzeImage() {
         image.src = imageURL;
 
         await new Promise((resolve, reject) => {
-
             image.onload = resolve;
-
             image.onerror = () => {
                 reject(
                     new Error("Gambar gagal dimuat.")
@@ -345,11 +304,6 @@ async function analyzeImage() {
             };
 
         });
-
-
-        // ==========================================
-        // PREDIKSI
-        // ==========================================
 
         console.log("Menjalankan prediksi...");
 
@@ -360,11 +314,6 @@ async function analyzeImage() {
             "Hasil prediksi:",
             predictions
         );
-
-
-        // ==========================================
-        // CARI PREDIKSI TERTINGGI
-        // ==========================================
 
         const bestPrediction =
             predictions.reduce(
@@ -394,20 +343,9 @@ async function analyzeImage() {
             confidence
         );
 
-
         URL.revokeObjectURL(imageURL);
 
-
-        // ==========================================
-        // TAMPILKAN CONFIDENCE
-        // ==========================================
-
         updateConfidence(confidence);
-
-
-        // ==========================================
-        // CEK CONFIDENCE
-        // ==========================================
 
         if (
             confidence <
@@ -424,11 +362,6 @@ async function analyzeImage() {
             return;
         }
 
-
-        // ==========================================
-        // AMBIL DATA SPREADSHEET
-        // ==========================================
-
         statusMessage.textContent =
             "Mengambil informasi diagnosis...";
 
@@ -441,11 +374,6 @@ async function analyzeImage() {
             await getDiagnosisFromSpreadsheet(
                 className
             );
-
-
-        // ==========================================
-        // TAMPILKAN HASIL
-        // ==========================================
 
         displayResult(
             className,
@@ -569,8 +497,6 @@ async function getDiagnosisFromSpreadsheet(className) {
             "URL Google Apps Script belum diatur."
         );
 
-        // Jika spreadsheet belum terhubung,
-        // tetap tampilkan nama class AI.
         return {
             diagnosis: className,
             category: "Belum terhubung ke database",
@@ -628,7 +554,6 @@ async function getDiagnosisFromSpreadsheet(className) {
 
 function normalizeSpreadsheetData(data, fallbackName) {
 
-    // Jika API langsung mengembalikan object
     const row =
         Array.isArray(data)
             ? data[0]
@@ -645,11 +570,6 @@ function normalizeSpreadsheetData(data, fallbackName) {
         };
     }
 
-    // Pencarian kolom yang tidak peka huruf besar/kecil dan spasi,
-    // serta menerima beberapa variasi nama header yang umum dipakai
-    // di spreadsheet (mis. "Penyebab Penyakit", "Gejala Umum", dst).
-    // Ini penting karena nama header di Google Sheet kamu mungkin
-    // tidak identik 100% dengan yang dicoba di kode.
     function findColumnValue(keywords) {
 
         for (const key of Object.keys(row)) {
@@ -663,9 +583,7 @@ function normalizeSpreadsheetData(data, fallbackName) {
                 );
 
             if (matches) {
-
                 const value = row[key];
-
                 if (
                     value !== undefined &&
                     value !== null &&
@@ -675,12 +593,9 @@ function normalizeSpreadsheetData(data, fallbackName) {
                 }
             }
         }
-
         return null;
     }
-
     return {
-
         diagnosis:
             findColumnValue(["diagnosis", "nama penyakit", "nama"]) ||
             fallbackName,
