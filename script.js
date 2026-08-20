@@ -1,7 +1,7 @@
 const CONFIG = {
 
     GOOGLE_DOC_URL: "https://docs.google.com/document/d/1ocqOshoM_F2iB-wK15PnOX4AR7hT46rAQSodpFdyRDQ/edit?usp=sharing",
-    MODEL_URL: "https://teachablemachine.withgoogle.com/models/4vk_plzSm/",
+    MODEL_URL: "https://teachablemachine.withgoogle.com/models/o1O2n5q_s/",
     SPREADSHEET_API_URL: "https://script.google.com/macros/s/AKfycbywgIvubGi5AsZZyov_mW7cqHAjnlwHBWchDYz72o6cf_RFvh-syf6h0jhU0V2NiT_4/exec",
 
     MIN_CONFIDENCE: 0.85
