@@ -1,10 +1,11 @@
 const CONFIG = {
-
+    
     GOOGLE_DOC_URL: "https://docs.google.com/document/d/1ocqOshoM_F2iB-wK15PnOX4AR7hT46rAQSodpFdyRDQ/edit?usp=sharing",
     MODEL_URL: "https://teachablemachine.withgoogle.com/models/o1O2n5q_s/",
     SPREADSHEET_API_URL: "https://script.google.com/macros/s/AKfycbywgIvubGi5AsZZyov_mW7cqHAjnlwHBWchDYz72o6cf_RFvh-syf6h0jhU0V2NiT_4/exec",
 
-    MIN_CONFIDENCE: 0.85
+    MIN_CONFIDENCE: 0.85,
+    MIN_MARGIN: 0.20
 };
 
 let model = null;
@@ -17,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const dropdownCancel = document.querySelector(".dropdown .cancel");
 
     if (menuToggle && dropdown) {
+
         menuToggle.addEventListener("click", () => {
             dropdown.classList.toggle("open");
             menuToggle.setAttribute(
@@ -32,6 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
 
+        
         document.querySelectorAll(".dropdown-links a").forEach(link => {
             link.addEventListener("click", () => {
                 dropdown.classList.remove("open");
@@ -41,14 +44,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     document.querySelectorAll('a[href^="#"]').forEach(link => {
+
         link.addEventListener("click", function (event) {
 
             const targetId = this.getAttribute("href");
+
             if (!targetId || targetId === "#") return;
 
             const target = document.querySelector(targetId);
+
             if (target) {
                 event.preventDefault();
+
                 target.scrollIntoView({
                     behavior: "smooth",
                     block: "start"
@@ -81,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("Ukuran gambar maksimal 10 MB.");
             return;
         }
-        
+
         uploadedImage = file;
 
         const reader = new FileReader();
@@ -89,8 +96,11 @@ document.addEventListener("DOMContentLoaded", () => {
         reader.onload = function (event) {
 
             imagePreview.src = event.target.result;
+
             previewWrap.classList.add("show");
+
             analyzeButton.disabled = false;
+
             statusMessage.textContent =
                 "Foto siap dianalisis.";
         };
@@ -102,6 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const uploadArea = document.querySelector(".upload-card");
 
     if (uploadArea) {
+
         uploadArea.addEventListener("dragover", event => {
             event.preventDefault();
             uploadArea.classList.add("dragging");
@@ -112,7 +123,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         uploadArea.addEventListener("drop", event => {
+
             event.preventDefault();
+
             uploadArea.classList.remove("dragging");
 
             const file = event.dataTransfer.files[0];
@@ -167,7 +180,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const resetButton = document.getElementById("resetButton");
 
     if (resetButton) {
+
         resetButton.addEventListener("click", () => {
+
             uploadedImage = null;
 
             if (imageInput) {
@@ -191,6 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const backToTop = document.getElementById("scrollTop");
 
     if (backToTop) {
+
         window.addEventListener("scroll", () => {
 
             if (window.scrollY > 400) {
@@ -266,13 +282,16 @@ async function analyzeImage() {
         document.getElementById("statusMessage");
 
     try {
+
         console.log("=== ANALISIS DIMULAI ===");
+
         if (!uploadedImage) {
             alert("Silakan pilih gambar terlebih dahulu.");
             return;
         }
 
         analyzeButton.disabled = true;
+
         analyzeButton.innerHTML =
             '<i class="fa-solid fa-spinner fa-spin"></i> Menganalisis...';
 
@@ -280,8 +299,11 @@ async function analyzeImage() {
             "Memuat model AI...";
 
         if (!model) {
+
             console.log("Model belum dimuat. Memuat sekarang...");
+
             await loadModel();
+
             console.log("Model berhasil dimuat.");
         }
 
@@ -296,7 +318,9 @@ async function analyzeImage() {
         image.src = imageURL;
 
         await new Promise((resolve, reject) => {
+
             image.onload = resolve;
+
             image.onerror = () => {
                 reject(
                     new Error("Gambar gagal dimuat.")
@@ -315,23 +339,24 @@ async function analyzeImage() {
             predictions
         );
 
-        const bestPrediction =
-            predictions.reduce(
-                (best, current) => {
-
-                    return current.probability >
-                        best.probability
-                        ? current
-                        : best;
-
-                }
+        const sortedPredictions =
+            [...predictions].sort(
+                (a, b) => b.probability - a.probability
             );
+
+        const bestPrediction = sortedPredictions[0];
+        const secondPrediction = sortedPredictions[1];
 
         const className =
             bestPrediction.className;
 
         const confidence =
             bestPrediction.probability;
+
+        const margin =
+            secondPrediction
+                ? confidence - secondPrediction.probability
+                : confidence;
 
         console.log(
             "Class:",
@@ -343,13 +368,19 @@ async function analyzeImage() {
             confidence
         );
 
+        console.log(
+            "Margin ke kelas ke-2:",
+            margin
+        );
+
+
         URL.revokeObjectURL(imageURL);
 
         updateConfidence(confidence);
 
         if (
-            confidence <
-            CONFIG.MIN_CONFIDENCE
+            confidence < CONFIG.MIN_CONFIDENCE ||
+            margin < CONFIG.MIN_MARGIN
         ) {
 
             showLowConfidenceResult(
@@ -554,12 +585,12 @@ async function getDiagnosisFromSpreadsheet(className) {
 
 function normalizeSpreadsheetData(data, fallbackName) {
 
-    const row =
+    const rows =
         Array.isArray(data)
-            ? data[0]
-            : data;
+            ? data
+            : (data ? [data] : []);
 
-    if (!row) {
+    if (rows.length === 0) {
 
         return {
             diagnosis: fallbackName,
@@ -570,7 +601,7 @@ function normalizeSpreadsheetData(data, fallbackName) {
         };
     }
 
-    function findColumnValue(keywords) {
+    function findColumnValue(row, keywords) {
 
         for (const key of Object.keys(row)) {
 
@@ -583,7 +614,9 @@ function normalizeSpreadsheetData(data, fallbackName) {
                 );
 
             if (matches) {
+
                 const value = row[key];
+
                 if (
                     value !== undefined &&
                     value !== null &&
@@ -593,27 +626,91 @@ function normalizeSpreadsheetData(data, fallbackName) {
                 }
             }
         }
+
         return null;
     }
+
+    const normalizedTarget =
+        fallbackName.trim().toLowerCase();
+
+    let row = rows.find(candidate => {
+
+        const name =
+            findColumnValue(
+                candidate,
+                ["diagnosis", "nama penyakit", "nama"]
+            );
+
+        return (
+            name &&
+            name.trim().toLowerCase() === normalizedTarget
+        );
+    });
+
+    if (!row) {
+
+        row = rows.find(candidate => {
+
+            const name =
+                findColumnValue(
+                    candidate,
+                    ["diagnosis", "nama penyakit", "nama"]
+                );
+
+            if (!name) return false;
+
+            const normalizedName =
+                name.trim().toLowerCase();
+
+            return (
+                normalizedName.includes(normalizedTarget) ||
+                normalizedTarget.includes(normalizedName)
+            );
+        });
+    }
+
+    if (!row && rows.length === 1) {
+        row = rows[0];
+    }
+
+    if (!row) {
+
+        console.warn(
+            "Tidak ditemukan baris spreadsheet yang cocok untuk class:",
+            fallbackName,
+            "- baris yang tersedia:",
+            rows
+        );
+
+        return {
+            diagnosis: fallbackName,
+            category: "Data tidak ditemukan",
+            cause: "Nama penyakit dari AI (\"" + fallbackName + "\") tidak cocok dengan baris manapun di spreadsheet.",
+            symptoms: "Periksa apakah nama kelas di Teachable Machine sama persis dengan kolom nama penyakit di spreadsheet.",
+            solution: "Silakan periksa kembali hasil prediksi AI."
+        };
+    }
+
     return {
+
         diagnosis:
-            findColumnValue(["diagnosis", "nama penyakit", "nama"]) ||
+            findColumnValue(row, ["diagnosis", "nama penyakit", "nama"]) ||
             fallbackName,
 
         category:
-            findColumnValue(["kategori", "category"]) ||
+            findColumnValue(row, ["kategori", "category"]) ||
             "Tidak tersedia",
 
         cause:
-            findColumnValue(["penyebab", "sebab", "cause"]) ||
+            findColumnValue(row, ["penyebab", "sebab", "cause"]) ||
             "Tidak tersedia",
 
         symptoms:
-            findColumnValue(["gejala", "symptom", "tanda", "ciri"]) ||
+            findColumnValue(row, ["gejala", "symptom", "tanda", "ciri"]) ||
             "Tidak tersedia",
 
         solution:
-            findColumnValue(["solusi", "solution", "penanganan", "cara mengatasi"]) ||
+            findColumnValue(row, ["solusi", "solution", "penanganan", "cara mengatasi"]) ||
             "Tidak tersedia"
     };
 }
