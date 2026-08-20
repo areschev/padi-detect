@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Padi Detect - website informasi dan deteksi kesehatan tanaman padi berbasis AI." />
+    <title>Padi Detect | Kesehatan Tanaman Padi</title>
+
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+</head>
+
+<body>
+    <nav id="navbar">
+        <div class="nav-container">
+            <a class="logo" href="#home" aria-label="Padi Detect home">
+                <span>Padi Detect</span>
+            </a>
+
+            <div class="links desktop-links">
+                <a href="#home">Home</a>
+                <a href="#tentang-padi">Tentang Padi</a>
+                <a href="#ai-checker">AI Checker</a>
+                <a href="#penutup">Penutup</a>
+                <a href="#sumber">Sumber & Dataset</a>
+            </div>
+
+            <button class="hamburg" aria-label="Buka menu" aria-expanded="false">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <div class="dropdown" aria-hidden="true">
+            <div class="dropdown-links">
+                <a href="#home">Home</a>
+                <a href="#tentang-padi">Tentang Padi</a>
+                <a href="#ai-checker">AI Checker</a>
+                <a href="#penutup">Penutup</a>
+                <a href="#sumber">Sumber & Dataset</a>
+                <button class="cancel" aria-label="Tutup menu">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HOME -->
+    <section class="hero-section" id="home">
+        <div class="main-container">
+            <div class="image" data-aos="zoom-in" data-aos-duration="1200">
+                <img src="main.jpg" alt="Ilustrasi tanaman padi untuk Padi Detect" />
+            </div>
+
+            <div class="content" data-aos="fade-left" data-aos-duration="1200">
+                <h1>Padi<span> Detect</span></h1>
+                <div class="typewriter">
+                    Kesehatan Padi<span class="typewriter-text"></span>
+                </div>
+
+                <p>
+                    Website Padi Detect hadir sebagai solusi praktis yang bisa dipakai siapa saja. 
+                    Lewat website ini, para pengguna cukup mengambil foto daun atau batang padi yang bermasalah lalu mengunggahnya. 
+                    Dalam hitungan detik, sistem akan memberi tahu penyakit apa yang menyerang sekaligus memberikan solusi nya. 
+                    Dengan begitu, petani bisa mencegah gagal panen, tidak perlu mengeluarkan uang yang banyak untuk racun hama yang salah, 
+                    dan mengurus sawah jadi lebih cepat serta hemat.
+                </p>
+
+                <div class="hero-buttons">
+                    <a class="primary-button" id="googleDocButton" href="https://docs.google.com/document/d/1ocqOshoM_F2iB-wK15PnOX4AR7hT46rAQSodpFdyRDQ/edit?usp=sharing" target="_blank" rel="noopener norefferer">
+                        <i class="fa-solid fa-file-lines"></i>
+                        Info Selengkapnya
+                    </a>
+                    <a class="secondary-button" href="#ai-checker">
+                        <i class="fa-solid fa-leaf"></i>
+                        Cek Kesehatan Padi
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TENTANG PADI -->
+    <section class="about section-shell" id="tentang-padi">
+        <div class="content">
+            <div class="title" data-aos="fade-up">
+                <span>Tentang Padi</span>
+            </div>
+
+            <div class="about-details">
+                <div class="left" data-aos="fade-right">
+                    <div class="image-card">
+                        <img src="main.jpg" alt="Tanaman padi" />
+                        <div class="image-badge">
+                            <i class="fa-solid fa-seedling"></i>
+                            <span>Kesehatan Tanaman Padi</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="right" data-aos="fade-left">
+                    <div class="topic">Mengapa kesehatan padi itu penting?</div>
+                    <p>
+                        Kesehatan padi penting karena padi merupakan salah satu tanaman pangan utama yang menghasilkan beras. 
+                        Tanaman padi yang sehat dapat tumbuh dengan baik dan menghasilkan panen yang lebih optimal. 
+                        Sebaliknya, serangan hama, penyakit, kekurangan nutrisi, atau kondisi lingkungan yang tidak sesuai dapat menghambat pertumbuhan dan menurunkan hasil panen. 
+                        Oleh karena itu, pemantauan kesehatan padi sejak dini diperlukan agar gangguan dapat segera diketahui dan ditangani.
+                    </p>
+                </div>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-card" data-aos="fade-up" data-aos-delay="50">
+                    <div class="icon"><i class="fa-solid fa-chart-line"></i></div>
+                    <div class="topic">Produktivitas</div>
+                    <p>Dapat menjaga padi agar hasil panen yang di hasilkan berlimpah serta menjaga padi dengan mencegah penyakit sebelum merusak seluruh isi sawah.</p>
+                </div>
+
+                <div class="info-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="icon"><i class="fa-solid fa-bowl-rice"></i></div>
+                    <div class="topic">Ketahanan Pangan</div>
+                    <p>Padi merupakan salah satu sumber pangan utama sehingga menjaga kesehatan padi dapat membantu  mempertahankan ketersediaan beras bagi masyarakat.</p>
+                </div>
+
+                <div class="info-card" data-aos="fade-up" data-aos-delay="150">
+                    <div class="icon"><i class="fa-solid fa-leaf"></i></div>
+                    <div class="topic">Kualitas Tanaman</div>
+                    <p>Tanaman padi yang sehat memiliki pertumbuhan yang baik, daun yang normal, serta bulir yang berkembang dengan optimal.</p>
+                </div>
+
+                <div class="info-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="icon"><i class="fa-solid fa-droplet"></i></div>
+                    <div class="topic">Pengelolaan Tanaman</div>
+                    <p>Membantu para petani dalam mengurus sawah agar lebih mudah dengan saran perawatan yang baik serta tidak memerlukan biaya yang besar.</p>
+                </div>
+
+                <div class="info-card" data-aos="fade-up" data-aos-delay="250">
+                    <div class="icon"><i class="fa-solid fa-seedling"></i></div>
+                    <div class="topic">Pertumbuhan Sehat</div>
+                    <p>Pertumbuhan padi dipengaruhi oleh air, nutrisi, cahaya matahari, kondisi tanah, suhu, kelembapan, kualitas benih, serta pengendalian hama dan penyakit.</p>
+                </div>
+
+                <div class="info-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="icon"><i class="fa-solid fa-shield-heart"></i></div>
+                    <div class="topic">Pencegahan Dini</div>
+                    <p>Mengenali gejala penyakit tanaman padi sejak awal dapat membantu menentukan tindakan yang tepat sehingga kerusakan tanaman padi dapat dicegah atau dikurangi.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI CHECKER -->
+    <section class="checker-section section-shell" id="ai-checker">
+        <div class="content">
+            <div class="title" data-aos="fade-up">
+                <span>AI Checker</span>
+            </div>
+
+            <div class="checker-layout">
+                <div class="checker-card upload-card" data-aos="fade-right">
+                    <div class="checker-icon"><i class="fa-solid fa-camera"></i></div>
+                    <h2>Unggah Foto Daun Padi</h2>
+                    <p>
+                        Gunakan foto daun yang terlihat jelas. Model AI akan memprediksi kategori
+                        tanaman berdasarkan model Teachable Machine yang kamu latih.
+                    </p>
+
+                    <label for="imageInput" class="upload-button">
+                        <i class="fa-solid fa-upload"></i>
+                        Pilih Foto
+                    </label>
+                    <input type="file" id="imageInput" accept="image/*" hidden />
+
+                    <div class="preview-wrap" id="previewWrap">
+                        <img id="imagePreview" src="" alt="Preview foto daun padi" />
+                    </div>
+
+                    <button class="analyze-button" id="analyzeButton" disabled>
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        Analisis Foto
+                    </button>
+
+                    <div class="status-message" id="statusMessage" role="status">
+                        Model belum dijalankan.
+                    </div>
+                </div>
+
+                <div class="checker-card result-card" data-aos="fade-left">
+                    <div class="result-header">
+                        <div>
+                            <span class="eyebrow">HASIL ANALISIS</span>
+                            <h2 id="diagnosisName">Belum ada hasil</h2>
+                        </div>
+                        <div class="result-icon">
+                            <i class="fa-solid fa-microscope"></i>
+                        </div>
+                    </div>
+
+                    <div class="confidence-box">
+                        <div class="confidence-top">
+                            <span>Confidence AI</span>
+                            <strong id="confidenceText">0%</strong>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-bar" id="confidenceBar"></div>
+                        </div>
+                        <small id="confidenceNote">
+                            Confidence menunjukkan tingkat keyakinan model terhadap kelas dengan probabilitas tertinggi.
+                        </small>
+                    </div>
+
+                    <div class="result-grid">
+                        <div class="result-item">
+                            <span>Kategori</span>
+                            <strong id="resultCategory">-</strong>
+                        </div>
+                        <div class="result-item">
+                            <span>Penyebab</span>
+                            <strong id="resultCause">-</strong>
+                        </div>
+                        <div class="result-item">
+                            <span>Gejala</span>
+                            <p id="resultSymptoms">-</p>
+                        </div>
+                        <div class="result-item">
+                            <span>Solusi</span>
+                            <p id="resultSolution">-</p>
+                        </div>
+                    </div>
+
+                    <div class="warning-note">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span>
+                            Hasil ini merupakan prediksi model AI dan informasi database untuk kebutuhan
+                            edukasi. Gunakan sumber tepercaya sebagai acuan lanjutan.
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PENUTUP -->
+    <section class="closing-section section-shell" id="penutup">
+        <div class="content">
+            <div class="title" data-aos="fade-up">
+                <span>Penutup</span>
+            </div>
+
+            <div class="closing-grid">
+                <div class="closing-panel" data-aos="fade-right">
+                    <div class="topic">Anggota Kelompok</div>
+                    <div class="member-list">
+                        <div class="member"><span>01</span><strong>Gladys Safika Eka Bima / 13</strong></div>
+                        <div class="member"><span>02</span><strong>Kirana Zada Rahmadani / 18</strong></div>
+                        <div class="member"><span>03</span><strong>Nareswara Chrysant Larasati / 26</strong></div>
+                        <div class="member"><span>04</span><strong>Nathaniel Alward Millard / 27</strong></div>
+                        <div class="member"><span>05</span><strong>Tabina Rafa Maritza / 33</strong></div>
+                        <div class="member"><span>06</span><strong>Yella Rayya Guna Sidik / 35</strong></div>
+                    </div>
+                    <p class="placeholder-note">
+                        Kokurikuler: Rekayasa Teknologi 2026
+                    </p>
+                </div>
+
+                <div class="closing-panel" data-aos="fade-left">
+                    <div class="topic">Kesimpulan</div>
+                    <p>
+                        Padi Detect dirancang sebagai media informasi dan alat bantu pengenalan awal
+                        kesehatan tanaman padi. Dengan menggabungkan model klasifikasi gambar dan
+                        database informasi, pengguna dapat memperoleh prediksi serta informasi pendukung
+                        secara lebih terstruktur.
+                    </p>
+                    <div class="quote-box">
+                        <i class="fa-solid fa-quote-left"></i>
+                        <span>Kenali lebih awal, pahami lebih baik, rawat lebih tepat.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SUMBER & DATASET -->
+    <section class="sources-section section-shell" id="sumber">
+        <div class="content">
+            <div class="title" data-aos="fade-up">
+                <span>Sumber & Dataset</span>
+            </div>
+
+            <div class="sources-grid">
+                <div class="source-card" data-aos="fade-up">
+                    <div class="icon"><i class="fa-solid fa-database"></i></div>
+                    <div class="topic">Database Diagnosa</div>
+                    <p>
+                        Informasi nama penyakit, kategori, penyebab, gejala, dan solusi diambil
+                        dari database spreadsheet yang disiapkan untuk proyek Padi Detect.
+                    </p>
+                    <span class="source-label">Google Spreadsheet</span>
+                </div>
+
+                <div class="source-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="icon"><i class="fa-solid fa-brain"></i></div>
+                    <div class="topic">Model AI</div>
+                    <p>
+                        Model klasifikasi gambar dilatih menggunakan Google Teachable Machine dan
+                        digunakan untuk memprediksi kelas berdasarkan foto daun yang diunggah.
+                    </p>
+                    <span class="source-label">Google Teachable Machine</span>
+                </div>
+
+                <div class="source-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="icon"><i class="fa-solid fa-book-open"></i></div>
+                    <div class="topic">Referensi</div>
+                    <p>
+                        Tambahkan daftar buku, artikel, situs resmi, jurnal, atau sumber pembelajaran
+                        yang kamu gunakan dalam penyusunan materi dan dataset.
+                    </p>
+                    <span class="source-label">Tambahkan referensi</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="text">
+            <span>Dibuat oleh <a href="#penutup">Kelompok 4</a> | Kelas XI-A GHS 77</span>
+        </div>
+    </footer>
+
+    <button class="scroll-top" id="scrollTop" aria-label="Kembali ke atas">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- TensorFlow.js + Teachable Machine -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init({ offset: 40, duration: 800, once: true });
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>
